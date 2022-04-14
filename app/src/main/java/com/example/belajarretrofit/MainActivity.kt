@@ -28,7 +28,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        //data klasemen
         fetchKlasemen()
+        //data mobil
+//        fetchData()
 
     }
 
