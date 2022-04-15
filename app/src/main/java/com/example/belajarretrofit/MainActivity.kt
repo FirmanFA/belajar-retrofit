@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.belajarretrofit.databinding.ActivityMainBinding
 import com.example.belajarretrofit.model.KlasemenItem
@@ -20,14 +21,12 @@ import retrofit2.Response
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
-    lateinit var mainViewModel: MainViewModel
+    private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
         binding.floatingActionButton.setOnClickListener {
             val intent = Intent(this, RegisterActivity:: class.java)
@@ -42,11 +41,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+
         mainViewModel.dataMovie.observe(this) {
             showListMovie(it.results)
         }
 
-        mainViewModel.getAllMovies()
+//        mainViewModel.getAllMovies()
 
         //data klasemen
 //        fetchKlasemen()
@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
                 response: Response<MovieResponse>
             ) {
                 val body = response.body()
-                Toast.makeText(this@MainActivity, response.headers().toString(), Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this@MainActivity, response.headers().toString(), Toast.LENGTH_SHORT).show()
                 val code = response.code()
                 if (code == 200){
                     showListMovie(body?.results)

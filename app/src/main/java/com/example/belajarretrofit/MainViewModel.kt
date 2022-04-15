@@ -1,5 +1,6 @@
 package com.example.belajarretrofit
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.belajarretrofit.model.MovieResponse
@@ -10,9 +11,15 @@ import retrofit2.Response
 
 class MainViewModel: ViewModel() {
 
-    val dataMovie: MutableLiveData<MovieResponse> = MutableLiveData()
     val error: MutableLiveData<String> = MutableLiveData()
     val isLoading = MutableLiveData<Boolean>()
+    private val _dataMovie: MutableLiveData<MovieResponse> by lazy {
+        MutableLiveData<MovieResponse>().also {
+            getAllMovies()
+        }
+    }
+    val dataMovie: LiveData<MovieResponse> = _dataMovie
+
 
     fun getAllMovies(){
         isLoading.postValue(true)
@@ -20,7 +27,7 @@ class MainViewModel: ViewModel() {
             override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
                 isLoading.postValue(false)
                 if (response.code() == 200){
-                    dataMovie.postValue(response.body())
+                    _dataMovie.postValue(response.body())
                 }else{
                     error.postValue("Error")
                 }
