@@ -2,12 +2,11 @@ package com.example.belajarretrofit.service
 
 import com.example.belajarretrofit.model.*
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface ApiService {
+
+
 
     @GET("admin/car")
     fun getAllCar(): Call<List<MobilResponseItem>>
@@ -18,7 +17,15 @@ interface ApiService {
     @POST("admin/auth/register")
     fun postRegister(@Body request: RegisterRequest): Call<RegisterResponse>
 
+    @POST("admin/auth/login")
+    fun postLogin(@Body request: LoginRequest): Call<LoginResponse>
+
+    @GET("movie/popular")
+    fun getAllMovies(): Call<MovieResponse>
+
     @GET("leagues")
     fun getKlasemen(): Call<KlasemenResponse>
+
+
 
 }

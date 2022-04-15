@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.example.belajarretrofit.databinding.ActivityRegisterBinding
+import com.example.belajarretrofit.model.LoginRequest
+import com.example.belajarretrofit.model.LoginResponse
 import com.example.belajarretrofit.model.RegisterRequest
 import com.example.belajarretrofit.model.RegisterResponse
 import com.example.belajarretrofit.service.ApiClient
@@ -27,6 +29,32 @@ class RegisterActivity : AppCompatActivity() {
             registerUser(user)
         }
 
+        binding.btnLogin.setOnClickListener {
+            val email = binding.etEmail.text.toString()
+            val passwrd = binding.etPassword.text.toString()
+            val userLogin = LoginRequest(email,passwrd)
+            loginUser(userLogin)
+        }
+
+
+    }
+
+    private fun loginUser(loginRequest: LoginRequest){
+        binding.progressBar2.visibility = View.VISIBLE
+        binding.btnRegister.visibility = View.GONE
+        ApiClient.instance.postLogin(loginRequest).enqueue(object : Callback<LoginResponse> {
+            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                Toast.makeText(this@RegisterActivity, response.body()?.password, Toast.LENGTH_SHORT).show()
+                binding.progressBar2.visibility = View.GONE
+                binding.btnRegister.visibility = View.VISIBLE
+                finish()
+            }
+
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                binding.progressBar2.visibility = View.GONE
+                binding.btnRegister.visibility = View.VISIBLE
+            }
+        })
     }
 
     private fun registerUser(registerRequest: RegisterRequest) {
@@ -37,18 +65,10 @@ class RegisterActivity : AppCompatActivity() {
                 call: Call<RegisterResponse>,
                 response: Response<RegisterResponse>
             ) {
-                val code = response.code()
-                if (code==200){
-                    binding.progressBar2.visibility = View.GONE
-                    binding.btnRegister.visibility = View.VISIBLE
-                    Toast.makeText(this@RegisterActivity, "Register Berhasil", Toast.LENGTH_SHORT)
-                        .show()
-                    finish()
-                }else{
-                    Toast.makeText(this@RegisterActivity, "email sudah ada", Toast.LENGTH_SHORT).show()
-                    binding.progressBar2.visibility = View.GONE
-                    binding.btnRegister.visibility = View.VISIBLE
-                }
+                Toast.makeText(this@RegisterActivity, response.body()?.email, Toast.LENGTH_SHORT).show()
+                binding.progressBar2.visibility = View.GONE
+                binding.btnRegister.visibility = View.VISIBLE
+                finish()
             }
 
             override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
