@@ -23,11 +23,7 @@ class MainViewModel: ViewModel() {
 
     val errorDetail: MutableLiveData<String> = MutableLiveData()
     val isLoadingDetail = MutableLiveData<Boolean>()
-    private val _detailMovie: MutableLiveData<DetailMovieResponse> by lazy {
-        MutableLiveData<DetailMovieResponse>().also {
-            getAllMovies()
-        }
-    }
+    private val _detailMovie: MutableLiveData<DetailMovieResponse> = MutableLiveData()
     val detailMovie: LiveData<DetailMovieResponse> = _detailMovie
 
 
