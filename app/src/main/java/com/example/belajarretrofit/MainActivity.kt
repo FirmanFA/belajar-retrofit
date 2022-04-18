@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -48,6 +49,10 @@ class MainActivity : AppCompatActivity() {
             },2000)
         }
 
+        mainViewModel.detailMovie.observe(this){
+            Toast.makeText(this, it.originalTitle, Toast.LENGTH_SHORT).show()
+        }
+
 //        mainViewModel.getAllMovies()
 
         //data klasemen
@@ -59,7 +64,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showListMovie(results: List<Result>?) {
-        val adapter= MovieAdapter {}
+        val adapter= MovieAdapter {
+            mainViewModel.getDetailMovies(it.id)
+        }
         adapter.submitList(results)
         binding.recyclerView.adapter = adapter
     }

@@ -23,6 +23,9 @@ interface ApiService {
     @GET("movie/popular")
     fun getAllMovies(): Call<MovieResponse>
 
+    @GET("movie/{id}")
+    fun getDetailMovie(@Path("id") id: Int): Call<DetailMovieResponse>
+
     @GET("leagues")
     fun getKlasemen(): Call<KlasemenResponse>
 
