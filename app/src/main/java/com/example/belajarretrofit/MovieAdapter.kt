@@ -25,7 +25,9 @@ class MovieAdapter(private val onClick:(Result)->Unit)
             binding.apply {
                 tvMobil.text = currentResult.title
                 tvHarga.text = currentResult.overview
-                Glide.with(binding.ivPoster).load("https://image.tmdb.org/t/p/w500"+currentResult.posterPath).into(ivPoster)
+                Glide.with(binding.ivPoster)
+                    .load("https://image.tmdb.org/t/p/w500"+currentResult.posterPath)
+                    .into(ivPoster)
                 root.setOnClickListener {
                     onClick(currentResult)
                 }

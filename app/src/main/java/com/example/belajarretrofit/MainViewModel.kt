@@ -21,7 +21,7 @@ class MainViewModel: ViewModel() {
     val dataMovie: LiveData<MovieResponse> = _dataMovie
 
 
-    fun getAllMovies(){
+    private fun getAllMovies(){
         isLoading.postValue(true)
         ApiClient.instance.getAllMovies().enqueue(object : Callback<MovieResponse> {
             override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
