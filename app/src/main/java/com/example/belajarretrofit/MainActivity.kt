@@ -49,10 +49,6 @@ class MainActivity : AppCompatActivity() {
             },2000)
         }
 
-        mainViewModel.detailMovie.observe(this){
-            Toast.makeText(this, it.originalTitle, Toast.LENGTH_SHORT).show()
-        }
-
 //        mainViewModel.getAllMovies()
 
         //data klasemen
@@ -65,7 +61,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun showListMovie(results: List<Result>?) {
         val adapter= MovieAdapter {
-            mainViewModel.getDetailMovies(it.id)
+            //pindah fragment sambil bawa it.id
+            val intent = Intent(this, DetailActivity::class.java)
+            intent.putExtra("movieId", it.id)
+            startActivity(intent)
+//            mainViewModel.getDetailMovies(it.id)
         }
         adapter.submitList(results)
         binding.recyclerView.adapter = adapter
